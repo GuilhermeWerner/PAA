@@ -27,7 +27,7 @@ Graph *Graph::Clone()
 {
     Graph *graph = new Graph(length);
 
-    for (int i = 0; i < length; i++)
+    for (auto i = 0; i < length; i++)
     {
         for (auto j = adj[i].begin(); j != adj[i].end(); j++)
         {
@@ -44,7 +44,7 @@ void Graph::DFS(int u, vector<int> &disc, vector<int> &low, vector<int> &parent,
     disc[u] = low[u] = time;
     time += 1;
 
-    for (int v : adj[u])
+    for (auto v : adj[u])
     {
         // vertice não visitado
         if (disc[v] == -1)
@@ -84,7 +84,7 @@ int Graph::DFSCount(int v, bool visited[])
 
 void Graph::Print()
 {
-    for (int i = 0; i < length; i++)
+    for (auto i = 0; i < length; i++)
     {
         cout << "[" << i << "]: ";
 
