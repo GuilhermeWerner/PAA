@@ -96,3 +96,63 @@ void Graph::Print()
         cout << endl;
     }
 }
+
+void Graph::TransitiveClosure()
+{
+    int reach[length][length];
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            reach[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            reach[i][*j] = 1;
+        }
+    }
+
+    for (auto k = 0; k < length; k++)
+    {
+        for (auto i = 0; i < length; i++)
+        {
+            for (auto j = 0; j < length; j++)
+            {
+                reach[i][j] = reach[i][j] || (reach[i][k] && reach[k][j]);
+            }
+        }
+    }
+
+    cout << "  ";
+
+    for (int j = 0; j < length; j++)
+    {
+        cout << j << " ";
+    }
+
+    cout << "\n";
+
+    for (int i = 0; i < length; i++)
+    {
+        cout << i << " ";
+
+        for (int j = 0; j < length; j++)
+        {
+            if (i == j)
+            {
+                cout << "1 ";
+            }
+            else
+            {
+                cout << reach[i][j] << " ";
+            }
+        }
+
+        cout << "\n";
+    }
+}
