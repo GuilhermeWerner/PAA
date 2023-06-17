@@ -156,3 +156,42 @@ void Graph::TransitiveClosure()
         cout << "\n";
     }
 }
+
+void Graph::PrintPermutations(const vector<int> &array)
+{
+    for (const auto &permutation : array)
+    {
+        cout << permutation << " ";
+    }
+
+    cout << endl;
+}
+
+void Graph::PermuteArray(vector<int> &array, int start)
+{
+    if (start == array.size() - 1)
+    {
+        PrintPermutations(array);
+    }
+    else
+    {
+        for (int i = start; i < array.size(); i++)
+        {
+            swap(array[start], array[i]);
+            this->PermuteArray(array, start + 1);
+            swap(array[start], array[i]);
+        }
+    }
+}
+
+void Graph::Permute()
+{
+    std::vector<int> vertices;
+
+    for (int i = 0; i < length; i++)
+    {
+        vertices[i] = i;
+    }
+
+    this->PermuteArray(vertices, 0);
+}

@@ -37,9 +37,12 @@ public:
     void Remove(int u, int v);
     void RemoveD(int u, int v);
     void TransitiveClosure();
+    void Permute();
     Graph *Clone();
 
 private:
     void DFS(int u, vector<int> &disc, vector<int> &low, vector<int> &parent, vector<pair<int, int>> &bridge);
     int DFSCount(int v, bool visited[]);
+    void PrintPermutations(const std::vector<int> &array);
+    void PermuteArray(std::vector<int> &array, int start);
 };

@@ -11,8 +11,11 @@ int main()
     g1->InsertD(2, 0);
     g1->InsertD(2, 3);
 
-    cout << "-- TRANSITIVE CLOSURE --\n\n";
-    g1->TransitiveClosure();
+    cout << "-- PERMUTATIONS --\n\n";
+    g1->Permute();
+
+    //cout << "-- TRANSITIVE CLOSURE --\n\n";
+    //g1->TransitiveClosure();
 
     return 0;
 }
