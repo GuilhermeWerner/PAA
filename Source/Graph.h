@@ -88,27 +88,26 @@ public:
     Graph *ToTransitiveClosure();
 
 public:
-    static vector<vector<int>> MultiplyIncidenceMatrix(const vector<vector<int>> &left, const vector<vector<int>> &right)
+    static vector<vector<int>> MultiplyIncidenceMatrix(const vector<vector<int>> &matrix1, const vector<vector<int>> &matrix2)
     {
-        int rows1 = left.size();
-        int cols1 = left[0].size();
-        int rows2 = right.size();
-        int cols2 = right[0].size();
+        int rows1 = matrix1.size();
+        int cols1 = matrix1[0].size();
+        int rows2 = matrix2.size();
+        int cols2 = matrix2[0].size();
 
-        // Cria a matriz de resultado com o número de linhas de matrix1 e o número de colunas de matrix2
-        vector<vector<int>> result(rows1 * rows2, vector<int>(cols1 * cols2, 0));
+        // Cria uma matriz resultante com o tamanho apropriado
+        vector<vector<int>> result(rows1, vector<int>(cols2, 0));
 
-        // Realiza a multiplicação tensorial das matrizes de incidência
-        for (int i = 0; i < rows1; i++)
+        // Realiza a multiplicação das matrizes
+        for (auto i = 0; i < rows1; i++)
         {
-            for (int j = 0; j < cols1; j++)
+            for (auto j = 0; j < cols2; j++)
             {
-                for (int k = 0; k < rows2; k++)
+                result[i][j] = 0;
+
+                for (auto k = 0; k < rows1; k++)
                 {
-                    for (int l = 0; l < cols2; l++)
-                    {
-                        result[i * rows2 + k][j * cols2 + l] = left[i][j] * right[k][l];
-                    }
+                    result[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
             }
         }
