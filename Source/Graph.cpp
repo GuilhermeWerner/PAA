@@ -23,6 +23,12 @@ void Graph::RemoveD(int u, int v)
     *iv = -1;
 }
 
+bool Graph::HasEdge(int u, int v)
+{
+    auto iv = find(adj[u].begin(), adj[u].end(), v);
+    return (iv != adj[u].end());
+}
+
 Graph *Graph::Clone()
 {
     Graph *graph = new Graph(length);
@@ -97,8 +103,10 @@ void Graph::Print()
     }
 }
 
-void Graph::TransitiveClosure()
+void Graph::TransitiveClosure2()
 {
+    // Populate matrix
+
     int reach[length][length];
 
     for (auto i = 0; i < length; i++)
@@ -117,6 +125,8 @@ void Graph::TransitiveClosure()
         }
     }
 
+    // Transitive closure
+
     for (auto k = 0; k < length; k++)
     {
         for (auto i = 0; i < length; i++)
@@ -127,6 +137,8 @@ void Graph::TransitiveClosure()
             }
         }
     }
+
+    // Print matrix
 
     cout << "  ";
 
@@ -154,5 +166,140 @@ void Graph::TransitiveClosure()
         }
 
         cout << "\n";
+    }
+}
+
+void Graph::TransitiveReduce()
+{
+    for (auto a = 0; a < length; a++)
+    {
+        for (auto b = 0; b < length; b++)
+        {
+            if (HasEdge(a, b))
+            {
+                for (auto c = 0; c < length; c++)
+                {
+                    if (HasEdge(b, c))
+                    {
+                        // this->RemoveD();
+                    }
+                }
+            }
+        }
+    }
+}
+
+void Graph::TransitiveClosure()
+{
+    int m1[length][length];
+    int m2[length][length];
+    int m3[length][length];
+
+    // Populate matrix
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            m1[i][j] = 0;
+            m2[i][j] = 0;
+            m3[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            m1[i][*j] = 1;
+            m2[i][*j] = 1;
+        }
+    }
+
+    cout << "\nM1:" << endl;
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; ++j)
+        {
+            cout << m1[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    // Transitive closure
+
+    for (auto k = 0; k < length; k++)
+    {
+        for (auto i = 0; i < length; i++)
+        {
+            for (auto j = 0; j < length; j++)
+            {
+                m2[i][j] = m2[i][j] || (m2[i][k] && m2[k][j]);
+            }
+        }
+    }
+
+    cout << "\nM2:" << endl;
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            cout << m2[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    // Multiply
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            m3[i][j] = 0;
+
+            for (auto k = 0; k < length; k++)
+            {
+                m3[i][j] += m1[i][k] * m2[k][j];
+            }
+        }
+    }
+
+    cout << "\nM3:" << endl;
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            cout << m3[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    // Remove
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            int temp = m1[i][j] - m3[i][j];
+            m3[i][j] = temp > 0 ? temp : 0;
+        }
+    }
+
+    cout << "\nGt:" << endl;
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = 0; j < length; j++)
+        {
+            cout << m3[i][j] << " ";
+        }
+
+        cout << endl;
     }
 }
