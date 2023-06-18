@@ -116,6 +116,9 @@ Graph *Graph::ToTransitiveClosure()
         }
     }
 
+    cout << "TC:" << endl;
+    Graph::PrintAdjacencyMatrix(closure);
+
     return new Graph(closure, closure.size());
 }
 
