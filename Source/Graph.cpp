@@ -2,19 +2,8 @@
 
 void Graph::PrintIncidenceMatrix()
 {
-    cout << "   ";
-
-    for (int j = 0; j < edges; j++)
-    {
-        cout << j << "  ";
-    }
-
-    cout << endl;
-
     for (int i = 0; i < nodes; i++)
     {
-        cout << i << " ";
-
         for (int j = 0; j < edges; j++)
         {
             int val = this->matrix[i][j];
@@ -33,6 +22,11 @@ void Graph::PrintIncidenceMatrix()
     }
 
     cout << endl;
+}
+
+void Graph::PrintAdjacencyMatrix()
+{
+    Graph::_PrintAdjacencyMatrix(this->GetAdjacencyMatrix());
 }
 
 void Graph::AddEdge(int u, int v)
@@ -117,7 +111,7 @@ Graph *Graph::ToTransitiveClosure()
     }
 
     cout << "TC:" << endl;
-    Graph::PrintAdjacencyMatrix(closure);
+    Graph::_PrintAdjacencyMatrix(closure);
 
     return new Graph(closure, closure.size());
 }

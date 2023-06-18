@@ -77,6 +77,8 @@ public:
 public:
     void PrintIncidenceMatrix();
 
+    void PrintAdjacencyMatrix();
+
     void AddEdge(int u, int v);
 
     vector<vector<int>> GetAdjacencyMatrix();
@@ -86,23 +88,6 @@ public:
     Graph *ToTransitiveClosure();
 
 public:
-    static void PrintAdjacencyMatrix(const vector<vector<int>> &adjacency)
-    {
-        int nodes = adjacency.size();
-
-        for (int i = 0; i < nodes; i++)
-        {
-            for (int j = 0; j < nodes; j++)
-            {
-                cout << adjacency[i][j] << " ";
-            }
-
-            cout << endl;
-        }
-
-        cout << endl;
-    }
-
     static vector<vector<int>> MultiplyIncidenceMatrix(const vector<vector<int>> &left, const vector<vector<int>> &right)
     {
         int rows1 = left.size();
@@ -129,5 +114,23 @@ public:
         }
 
         return result;
+    }
+
+private:
+    void _PrintAdjacencyMatrix(const vector<vector<int>> &adjacency)
+    {
+        int nodes = adjacency.size();
+
+        for (int i = 0; i < nodes; i++)
+        {
+            for (int j = 0; j < nodes; j++)
+            {
+                cout << adjacency[i][j] << " ";
+            }
+
+            cout << endl;
+        }
+
+        cout << endl;
     }
 };
