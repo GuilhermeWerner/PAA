@@ -116,6 +116,78 @@ Graph *Graph::ToTransitiveClosure()
     return new Graph(closure, closure.size());
 }
 
+void Graph::TransitiveReduction()
+{
+    auto closure = this->GetAdjacencyMatrix();
+
+    cout << "G1:" << endl;
+    Graph::_PrintAdjacencyMatrix(closure);
+
+    for (auto k = 0; k < this->nodes; k++)
+    {
+        for (auto i = 0; i < this->nodes; i++)
+        {
+            for (auto j = 0; j < this->nodes; j++)
+            {
+                if (i == j)
+                {
+                    closure[i][j] = 1;
+                }
+                else
+                {
+                    closure[i][j] = closure[i][j] || (closure[i][k] && closure[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "TC:" << endl;
+    Graph::_PrintAdjacencyMatrix(closure);
+
+    auto reduction = this->GetAdjacencyMatrix();
+
+    for (auto j = 0; j < this->nodes; j++)
+    {
+        for (auto i = 0; i < this->nodes; i++)
+        {
+            if (reduction[i][j] == 1)
+            {
+                for (auto k = 0; k < this->nodes; k++)
+                {
+                    if (reduction[j][k] == 1)
+                    {
+                        reduction[i][k] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    cout << "G2:" << endl;
+    Graph::_PrintAdjacencyMatrix(reduction);
+
+    for (auto k = 0; k < this->nodes; k++)
+    {
+        for (auto i = 0; i < this->nodes; i++)
+        {
+            for (auto j = 0; j < this->nodes; j++)
+            {
+                if (i == j)
+                {
+                    reduction[i][j] = 1;
+                }
+                else
+                {
+                    reduction[i][j] = reduction[i][j] || (reduction[i][k] && reduction[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "TC:" << endl;
+    Graph::_PrintAdjacencyMatrix(reduction);
+}
+
 /*
 void Graph::TransitiveClosure()
 {

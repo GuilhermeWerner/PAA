@@ -87,6 +87,8 @@ public:
 
     Graph *ToTransitiveClosure();
 
+    void TransitiveReduction();
+
 public:
     static vector<vector<int>> MultiplyIncidenceMatrix(const vector<vector<int>> &matrix1, const vector<vector<int>> &matrix2)
     {
