@@ -2,12 +2,20 @@
 
 int main()
 {
-    int nodes = 4;
+    int nodes = 6;
     Graph *g1 = new Graph(nodes);
 
+    g1->AddEdge(0, 0);
     g1->AddEdge(0, 1);
-    g1->AddEdge(2, 0);
+    g1->AddEdge(0, 2);
+    g1->AddEdge(0, 3);
+    g1->AddEdge(1, 2);
+    g1->AddEdge(1, 3);
+    g1->AddEdge(1, 5);
     g1->AddEdge(2, 3);
+    g1->AddEdge(3, 5);
+    g1->AddEdge(4, 0);
+    g1->AddEdge(4, 2);
 
     cout << "M1:" << endl;
     g1->PrintIncidenceMatrix();
