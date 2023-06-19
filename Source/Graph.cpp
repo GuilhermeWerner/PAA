@@ -1,199 +1,65 @@
 #include "Graph.h"
+#include "Graph.h"
 
-void Graph::PrintIncidenceMatrix()
+void Graph::Insert(int u, int v)
 {
-    for (int i = 0; i < nodes; i++)
-    {
-        for (int j = 0; j < edges; j++)
-        {
-            int val = this->matrix[i][j];
+    InsertD(u, v);
+    InsertD(v, u);
+}
 
-            if (val >= 0)
-            {
-                cout << " " << val << " ";
-            }
-            else
-            {
-                cout << val << " ";
-            }
+void Graph::InsertD(int u, int v)
+{
+    adj[u].push_back(v);
+}
+
+void Graph::Remove(int u, int v)
+{
+    RemoveD(u, v);
+    RemoveD(v, u);
+}
+
+void Graph::RemoveD(int u, int v)
+{
+    auto iv = find(adj[u].begin(), adj[u].end(), v);
+    *iv = -1;
+}
+
+Graph *Graph::Clone()
+{
+    Graph *graph = new Graph(length);
+
+    for (auto i = 0; i < length; i++)
+    {
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            graph->InsertD(i, *j);
+        }
+    }
+
+    return graph;
+}
+
+void Graph::Print()
+{
+    for (auto i = 0; i < length; i++)
+    {
+        cout << "[" << i << "]: ";
+
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            cout << *j << " ";
         }
 
         cout << endl;
     }
-
-    cout << endl;
 }
 
-void Graph::PrintAdjacencyMatrix()
-{
-    Graph::_PrintAdjacencyMatrix(this->GetAdjacencyMatrix());
-}
-
-void Graph::AddEdge(int u, int v)
-{
-    this->matrix[u][this->edges] = 1;
-    this->matrix[v][this->edges] = -1;
-    this->edges++;
-}
-
-vector<vector<int>> Graph::GetAdjacencyMatrix()
-{
-    vector<vector<int>> adjacency(this->nodes, vector<int>(this->nodes, 0));
-
-    // Converte uma matriz de incidência para de adjacência.
-    for (int j = 0; j < this->edges; j++)
-    {
-        int u = -1, v = -1;
-
-        for (int i = 0; i < this->nodes; i++)
-        {
-            if (this->matrix[i][j] == 1)
-            {
-                if (u == -1)
-                {
-                    u = i;
-                }
-            }
-            else if (this->matrix[i][j] == -1)
-            {
-                if (v == -1)
-                {
-                    v = i;
-                }
-            }
-        }
-
-        if (u != -1 && v != -1)
-        {
-            adjacency[u][v] = 1;
-        }
-    }
-
-    return adjacency;
-}
-
-vector<vector<int>> Graph::GetIncidenceMatrix()
-{
-    vector<vector<int>> incidence(this->nodes);
-
-    for (int i = 0; i < this->nodes; i++)
-    {
-        for (int j = 0; j < this->edges; j++)
-        {
-            incidence[i].push_back(this->matrix[i][j]);
-        }
-    }
-
-    return incidence;
-}
-
-Graph *Graph::ToTransitiveClosure()
-{
-    auto closure = this->GetAdjacencyMatrix();
-
-    // Calcula o fecho transitivo do grafo.
-    for (auto k = 0; k < this->nodes; k++)
-    {
-        for (auto i = 0; i < this->nodes; i++)
-        {
-            for (auto j = 0; j < this->nodes; j++)
-            {
-                if (i == j)
-                {
-                    closure[i][j] = 1;
-                }
-                else
-                {
-                    closure[i][j] = closure[i][j] || (closure[i][k] && closure[k][j]);
-                }
-            }
-        }
-    }
-
-    cout << "TC:" << endl;
-    Graph::_PrintAdjacencyMatrix(closure);
-
-    return new Graph(closure, closure.size());
-}
-
-void Graph::TransitiveReduction()
-{
-    auto closure = this->GetAdjacencyMatrix();
-
-    cout << "G1:" << endl;
-    Graph::_PrintAdjacencyMatrix(closure);
-
-    for (auto k = 0; k < this->nodes; k++)
-    {
-        for (auto i = 0; i < this->nodes; i++)
-        {
-            for (auto j = 0; j < this->nodes; j++)
-            {
-                if (i == j)
-                {
-                    closure[i][j] = 1;
-                }
-                else
-                {
-                    closure[i][j] = closure[i][j] || (closure[i][k] && closure[k][j]);
-                }
-            }
-        }
-    }
-
-    cout << "TC:" << endl;
-    Graph::_PrintAdjacencyMatrix(closure);
-
-    auto reduction = this->GetAdjacencyMatrix();
-
-    for (auto j = 0; j < this->nodes; j++)
-    {
-        for (auto i = 0; i < this->nodes; i++)
-        {
-            if (reduction[i][j] == 1)
-            {
-                for (auto k = 0; k < this->nodes; k++)
-                {
-                    if (reduction[j][k] == 1)
-                    {
-                        reduction[i][k] = 0;
-                    }
-                }
-            }
-        }
-    }
-
-    cout << "G2:" << endl;
-    Graph::_PrintAdjacencyMatrix(reduction);
-
-    for (auto k = 0; k < this->nodes; k++)
-    {
-        for (auto i = 0; i < this->nodes; i++)
-        {
-            for (auto j = 0; j < this->nodes; j++)
-            {
-                if (i == j)
-                {
-                    reduction[i][j] = 1;
-                }
-                else
-                {
-                    reduction[i][j] = reduction[i][j] || (reduction[i][k] && reduction[k][j]);
-                }
-            }
-        }
-    }
-
-    cout << "TC:" << endl;
-    Graph::_PrintAdjacencyMatrix(reduction);
-}
-
-/*
 void Graph::TransitiveClosure()
 {
     int m1[length][length];
     int m2[length][length];
     int m3[length][length];
+    int gt[length][length];
 
     // Populate matrix
 
@@ -293,13 +159,13 @@ void Graph::TransitiveClosure()
     {
         for (auto j = 0; j < length; j++)
         {
-            if (m1[i][j] >= 1 && m3[i][j] >= 1)
+            if (m1[i][j] == 1 && m3[i][j] == 1)
             {
-                m3[i][j] = 0;
+                gt[i][j] = 1;
             }
             else
             {
-                m3[i][j] = m1[i][j];
+                gt[i][j] = 0;
             }
         }
     }
@@ -310,10 +176,9 @@ void Graph::TransitiveClosure()
     {
         for (auto j = 0; j < length; j++)
         {
-            cout << m3[i][j] << " ";
+            cout << gt[i][j] << " ";
         }
 
         cout << endl;
     }
 }
-*/

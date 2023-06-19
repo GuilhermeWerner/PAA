@@ -5,18 +5,19 @@ int main()
     int nodes = 6;
     Graph *g1 = new Graph(nodes);
 
-    g1->AddEdge(0, 1);
-    g1->AddEdge(0, 2);
-    g1->AddEdge(0, 3);
-    g1->AddEdge(1, 2);
-    g1->AddEdge(1, 3);
-    g1->AddEdge(1, 5);
-    g1->AddEdge(2, 3);
-    g1->AddEdge(3, 5);
-    g1->AddEdge(4, 0);
-    g1->AddEdge(4, 2);
+    g1->InsertD(0, 1);
+    g1->InsertD(0, 2);
+    g1->InsertD(0, 3);
+    g1->InsertD(1, 2);
+    g1->InsertD(1, 3);
+    g1->InsertD(1, 5);
+    g1->InsertD(2, 3);
+    g1->InsertD(3, 5);
+    g1->InsertD(4, 0);
+    g1->InsertD(4, 2);
 
-    g1->TransitiveReduction();
+    cout << "-- TRANSITIVE CLOSURE --" << endl;
+    g1->TransitiveClosure();
 
     // cout << "M1:" << endl;
     // g1->PrintIncidenceMatrix();
