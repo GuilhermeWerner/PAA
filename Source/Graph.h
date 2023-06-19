@@ -36,6 +36,8 @@ public:
     void InsertD(int u, int v);
     void Remove(int u, int v);
     void RemoveD(int u, int v);
-    void TransitiveClosure();
+    void TransitiveReduction1();
+    void TransitiveReduction2();
+    void TransitiveReduction3();
     Graph *Clone();
 };

@@ -54,7 +54,7 @@ void Graph::Print()
     }
 }
 
-void Graph::TransitiveClosure()
+void Graph::TransitiveReduction1()
 {
     int m1[length][length];
     int m2[length][length];
@@ -177,6 +177,337 @@ void Graph::TransitiveClosure()
         for (auto j = 0; j < length; j++)
         {
             cout << gt[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+}
+
+void Graph::TransitiveReduction2()
+{
+    int closure[this->length][this->length];
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = 0; j < this->length; j++)
+        {
+            closure[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = this->adj[i].begin(); j != this->adj[i].end(); j++)
+        {
+            closure[i][*j] = 1;
+        }
+    }
+
+    cout << "\nG1:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+
+            cout << closure[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    for (auto k = 0; k < this->length; k++)
+    {
+        for (auto i = 0; i < this->length; i++)
+        {
+            for (auto j = 0; j < this->length; j++)
+            {
+                if (i == j)
+                {
+                    closure[i][j] = 1;
+                }
+                else
+                {
+                    closure[i][j] = closure[i][j] || (closure[i][k] && closure[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "\nTC:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (i == j)
+            {
+                cout << "1 ";
+            }
+            else
+            {
+                cout << closure[i][j] << " ";
+            }
+        }
+
+        cout << endl;
+    }
+
+    int reduction[this->length][this->length];
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = 0; j < this->length; j++)
+        {
+            reduction[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            reduction[i][*j] = 1;
+        }
+    }
+
+    for (auto j = 0; j < this->length; j++)
+    {
+        for (auto i = 0; i < this->length; i++)
+        {
+            if (reduction[i][j] == 1)
+            {
+                for (auto k = 0; k < this->length; k++)
+                {
+                    if (reduction[j][k] == 1)
+                    {
+                        reduction[i][k] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    cout << "\nG2:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+
+            cout << reduction[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    for (auto k = 0; k < this->length; k++)
+    {
+        for (auto i = 0; i < this->length; i++)
+        {
+            for (auto j = 0; j < this->length; j++)
+            {
+                if (i == j)
+                {
+                    reduction[i][j] = 1;
+                }
+                else
+                {
+                    reduction[i][j] = reduction[i][j] || (reduction[i][k] && reduction[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "\nTC:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (i == j)
+            {
+                cout << "1 ";
+            }
+            else
+            {
+                cout << reduction[i][j] << " ";
+            }
+        }
+
+        cout << endl;
+    }
+}
+
+void Graph::TransitiveReduction3()
+{
+    int closure[this->length][this->length];
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = 0; j < this->length; j++)
+        {
+            closure[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = this->adj[i].begin(); j != this->adj[i].end(); j++)
+        {
+            closure[i][*j] = 1;
+        }
+    }
+
+    cout << "\nG1:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+
+            cout << closure[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    for (auto k = 0; k < this->length; k++)
+    {
+        for (auto i = 0; i < this->length; i++)
+        {
+            for (auto j = 0; j < this->length; j++)
+            {
+                if (i == j)
+                {
+                    closure[i][j] = 1;
+                }
+                else
+                {
+                    closure[i][j] = closure[i][j] || (closure[i][k] && closure[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "\nTC:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (i == j)
+            {
+                cout << "1 ";
+            }
+            else
+            {
+                cout << closure[i][j] << " ";
+            }
+        }
+
+        cout << endl;
+    }
+
+    int reduction[this->length][this->length];
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = 0; j < this->length; j++)
+        {
+            reduction[i][j] = 0;
+        }
+    }
+
+    for (auto i = 0; i < this->length; i++)
+    {
+        for (auto j = adj[i].begin(); j != adj[i].end(); j++)
+        {
+            reduction[i][*j] = 1;
+        }
+    }
+
+    for (int v = 0; v < this->length; ++v)
+    {
+        std::vector<std::vector<int>> paths;
+
+        // Encontra todos os paths possíveis de v para outros vértices
+        for (int j = 2; j <= this->length; ++j)
+        {
+            std::vector<int> path(j);
+
+            for (int i = 0; i < j; ++i)
+            {
+                path[i] = i;
+            }
+
+            do
+            {
+                if (path[0] == v)
+                {
+                    paths.push_back(path);
+                }
+            } while (std::next_permutation(path.begin(), path.end()));
+        }
+
+        // Verifica se os paths são transitivos
+        for (const auto &path : paths)
+        {
+            for (int i = 0; i < path.size() - 2; ++i)
+            {
+                if (reduction[path[i]][path[i + 1]] == 1 && reduction[path[i + 1]][path[i + 2]] == 1)
+                {
+                    reduction[path[i]][path[i + 2]] = 0;
+                }
+            }
+        }
+    }
+
+    cout << "\nG2:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+
+            cout << reduction[i][j] << " ";
+        }
+
+        cout << endl;
+    }
+
+    for (auto k = 0; k < this->length; k++)
+    {
+        for (auto i = 0; i < this->length; i++)
+        {
+            for (auto j = 0; j < this->length; j++)
+            {
+                if (i == j)
+                {
+                    reduction[i][j] = 1;
+                }
+                else
+                {
+                    reduction[i][j] = reduction[i][j] || (reduction[i][k] && reduction[k][j]);
+                }
+            }
+        }
+    }
+
+    cout << "\nTC:" << endl;
+
+    for (int i = 0; i < this->length; i++)
+    {
+        for (int j = 0; j < this->length; j++)
+        {
+            if (i == j)
+            {
+                cout << "1 ";
+            }
+            else
+            {
+                cout << reduction[i][j] << " ";
+            }
         }
 
         cout << endl;

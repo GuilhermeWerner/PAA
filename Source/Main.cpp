@@ -16,25 +16,14 @@ int main()
     g1->InsertD(4, 0);
     g1->InsertD(4, 2);
 
-    cout << "-- TRANSITIVE CLOSURE --" << endl;
-    g1->TransitiveClosure();
+    cout << "-- MATRIX --" << endl;
+    g1->TransitiveReduction1();
 
-    // cout << "M1:" << endl;
-    // g1->PrintIncidenceMatrix();
-    // g1->PrintAdjacencyMatrix();
-    // auto m1 = g1->GetIncidenceMatrix();
+    cout << "\n-- LOOPS --" << endl;
+    g1->TransitiveReduction2();
 
-    // Graph *g2 = g1->ToTransitiveClosure();
-    // cout << "M2:" << endl;
-    // g2->PrintIncidenceMatrix();
-    // g2->PrintAdjacencyMatrix();
-    // auto m2 = g2->GetIncidenceMatrix();
-
-    // auto m3 = Graph::MultiplyIncidenceMatrix(m1, m2);
-    // Graph *g3 = new Graph(m3);
-    // cout << "M3:" << endl;
-    // g3->PrintIncidenceMatrix();
-    // g3->PrintAdjacencyMatrix();
+    cout << "\n-- PERMUTATION --" << endl;
+    g1->TransitiveReduction3();
 
     return 0;
 }
