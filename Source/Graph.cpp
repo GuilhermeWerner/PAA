@@ -427,16 +427,16 @@ void Graph::TransitiveReduction3()
         }
     }
 
-    for (int v = 0; v < this->length; ++v)
+    for (auto v = 0; v < this->length; ++v)
     {
         std::vector<std::vector<int>> paths;
 
         // Encontra todos os paths possíveis de v para outros vértices
-        for (int j = 2; j <= this->length; ++j)
+        for (auto j = 2; j <= this->length; ++j)
         {
             std::vector<int> path(j);
 
-            for (int i = 0; i < j; ++i)
+            for (auto i = 0; i < j; ++i)
             {
                 path[i] = i;
             }
